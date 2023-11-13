@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Controllers", "Api\Controllers.csproj", "{1A722543-C197-4BF7-9397-0CD184D2FF64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Api\Api.csproj", "{1A722543-C197-4BF7-9397-0CD184D2FF64}"
 	ProjectSection(ProjectDependencies) = postProject
 		{49B1E4DB-DB4A-484B-8931-5B0E39AF5559} = {49B1E4DB-DB4A-484B-8931-5B0E39AF5559}
 	EndProjectSection
