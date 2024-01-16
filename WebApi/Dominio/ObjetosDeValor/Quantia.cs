@@ -22,7 +22,7 @@ public class Quantia : ObjetoDeValor
     private static void ValidarConteudo(double valor)
     {
         new ExcecaoDeDominio()
-           .Quando(valor < 0, MensagensDeExcecao.QuantiaInvalida)
+           .Quando(valor < 0, MensagensDeExcecao.QuantiaInformadaEhInvalida)
            .EntaoDispara();
     }
 

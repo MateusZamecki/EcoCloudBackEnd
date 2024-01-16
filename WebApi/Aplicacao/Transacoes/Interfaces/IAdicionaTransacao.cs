@@ -1,9 +1,9 @@
-﻿using Aplicacao.DTOs;
+﻿using Aplicacao.DTOs.Transacoes;
 using System.Threading.Tasks;
 
 namespace Aplicacao.Transacoes.Interfaces;
 
 public interface IAdicionaTransacao
 {
-    Task<TransacaoDto> Adicionar(TransacaoDto transacaoDto);
+    Task Adicionar(AdicionaTransacaoDto transacaoDto);
 }

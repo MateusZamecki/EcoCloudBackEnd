@@ -1,4 +1,5 @@
-﻿using Dominio.Transacoes;
+﻿using Dominio.Colunas;
+using Dominio.Transacoes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -20,17 +21,9 @@ public class TransacaoMap : IEntityTypeConfiguration<Transacao>
             .HasColumnType("numeric(28,2)")
             .HasColumnName("Quantia")
             .IsRequired();
-        builder.Property(transacao => transacao.DataDeCriacao)
-            .HasColumnType("datetime")
-            .IsRequired();
-        builder.Property(transacao => transacao.Ativo)
-            .HasColumnType("bit")
-            .HasConversion<bool>()
-            .HasDefaultValue(true)
-            .IsRequired();
-        builder.Property(transacao => transacao.Classificacao)
-            .HasConversion<int>()
-            .IsRequired();
         builder.HasQueryFilter(transacao => transacao.Ativo);
+
+        builder.HasIndex("ClassificacaoId")
+            .IsUnique(false);
     }
 }

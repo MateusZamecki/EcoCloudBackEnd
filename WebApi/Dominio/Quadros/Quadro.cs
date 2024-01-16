@@ -59,7 +59,7 @@ public class Quadro : Entidade<Quadro>
     private void ValidarNome(Nome nome)
     {
         new ExcecaoDeDominio()
-            .QuandoEhNulo(nome, MensagensDeExcecao.NomeInformadoEhInvalido)
+            .QuandoEhNulo(nome, MensagensDeExcecao.ONomeInformadoEhInvalido)
             .EntaoDispara();
     }
 }

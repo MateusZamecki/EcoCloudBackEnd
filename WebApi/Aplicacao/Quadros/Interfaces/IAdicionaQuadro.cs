@@ -1,9 +1,9 @@
-﻿using Aplicacao.DTOs;
+﻿using Aplicacao.DTOs.Quadros;
 using System.Threading.Tasks;
 
 namespace Aplicacao.Quadros.Interfaces;
 
 public interface IAdicionaQuadro
 {
-    Task<QuadroDto> Adicionar(string nomeDoQuadro, int idDoUsuario);
+    Task Adicionar(AdicionaQuadroDto adicionaQuadroDto);
 }

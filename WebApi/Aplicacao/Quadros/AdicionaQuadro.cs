@@ -1,4 +1,4 @@
-﻿using Aplicacao.DTOs;
+﻿using Aplicacao.DTOs.Quadros;
 using Aplicacao.Mapeadores;
 using Aplicacao.Quadros.Interfaces;
 using Comum.Excecoes;
@@ -19,18 +19,16 @@ public class AdicionaQuadro : IAdicionaQuadro
         _usuarioRepositorio = usuarioRepositorio;
     }
 
-    public async Task<QuadroDto> Adicionar(string nomeDoQuadro, int idDoUsuario)
+    public async Task Adicionar(AdicionaQuadroDto adicionaQuadroDto)
     {
-        var usuario = await _usuarioRepositorio.ObterPorId(idDoUsuario);
+        var usuario = await _usuarioRepositorio.ObterPorId(adicionaQuadroDto.IdDoUsuario);
         ValidarSeOUsuarioExiste(usuario);
 
-        var nome = Nome.Criar(nomeDoQuadro);
+        var nome = Nome.Criar(adicionaQuadroDto.Nome);
         var quadro = new Quadro(nome);
 
         usuario.AdicionarQuadro(quadro);
         await _usuarioRepositorio.Atualizar(usuario);
-
-        return quadro.ObterDto();
     }
 
     private void ValidarSeOUsuarioExiste(Usuario usuario)

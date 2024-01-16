@@ -26,10 +26,10 @@ public class ConfiguracaoController : ICarterModule
     }
 
     public async Task<IResult> AlterarIntervalo(ConfiguracaoDto configuracaoDto, 
-        IAlteraIntervaloDaConfiguracao alteraIntervaloDaConfiguracao)
+        IAlteraConfiguracao alteraIntervaloDaConfiguracao)
     {
-        var configuracao = await alteraIntervaloDaConfiguracao.Alterar(configuracaoDto);
-        return Results.Ok(configuracao);
+        await alteraIntervaloDaConfiguracao.Alterar(configuracaoDto);
+        return Results.Ok();
     }
 
     public async Task<IResult> ExcluirConfiguracao(int id, 

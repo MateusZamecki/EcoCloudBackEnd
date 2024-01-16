@@ -1,4 +1,4 @@
-﻿using Aplicacao.DTOs;
+﻿using Aplicacao.DTOs.Transacoes;
 using Dominio.Transacoes;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +16,9 @@ public static class MapeiaParaTransacaoDto
             Quantia = transacao.Quantia.Valor,
             DataDeCriacao = transacao.DataDeCriacao,
             Ativo = transacao.Ativo,
-            Desativado = transacao.Desativado
+            Desativado = transacao.Desativado,
+            Classificacao = transacao.Classificacao.ObterDto(),
+            Descricao = transacao.Descricao,
         };
     }
 

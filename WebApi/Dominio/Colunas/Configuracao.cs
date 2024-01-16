@@ -21,16 +21,34 @@ public class Configuracao : Entidade<Configuracao>
 
     private void ValidarDadosObrigatorios(int intervaloDeDias)
     {
+        ValidarIntervaloDeDias(intervaloDeDias);
+    }
+
+    private void ValidarIntervaloDeDias(int intervaloDeDias)
+    {
         new ExcecaoDeDominio()
-            .Quando(intervaloDeDias <= 0, MensagensDeExcecao.IntervaloDeTempoInformadoEhInvalido)
-            .EntaoDispara();
+                    .Quando(intervaloDeDias <= 0, MensagensDeExcecao.IntervaloDeTempoInformadoEhInvalido)
+                    .EntaoDispara();
     }
 
     public void AlterarIntervalo(int novoIntervaloDeDias)
     {
-        ValidarDadosObrigatorios(novoIntervaloDeDias);
+        ValidarIntervaloDeDias(novoIntervaloDeDias);
         AtualizarData();
         IntervaloDeDias = novoIntervaloDeDias;
+    }
+
+    public void AlterarData(DateTime novaData)
+    {
+        ValidarData(novaData);
+        Data = novaData;
+    }
+
+    private void ValidarData(DateTime novaData)
+    {
+        new ExcecaoDeDominio()
+            .QuandoEhNulo(novaData, MensagensDeExcecao.ADataInformadaEhInvalida)
+            .EntaoDispara();
     }
 
     public void AtualizarData()

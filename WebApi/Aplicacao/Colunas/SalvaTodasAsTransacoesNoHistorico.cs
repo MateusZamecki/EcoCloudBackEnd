@@ -1,6 +1,4 @@
 ﻿using Aplicacao.Colunas.Interfaces;
-using Aplicacao.DTOs.Colunas;
-using Aplicacao.Mapeadores;
 using Comum.Excecoes;
 using Dominio.Colunas;
 using Infra.Repositorios.Interfaces;
@@ -17,7 +15,7 @@ public class SalvaTodasAsTransacoesNoHistorico : ISalvaTodasAsTransacoesNoHistor
         _colunaRepositorio = colunaRepositorio;
     }
 
-    public async Task<ColunaDto> Salvar(int idDaColuna)
+    public async Task Salvar(int idDaColuna)
     {
         var coluna = await _colunaRepositorio.ObterPorId(idDaColuna);
         ValidarSeAColunaExiste(coluna);
@@ -25,8 +23,6 @@ public class SalvaTodasAsTransacoesNoHistorico : ISalvaTodasAsTransacoesNoHistor
         coluna.SalvarTransacoesNoHistorico();
 
         await _colunaRepositorio.Atualizar(coluna);
-
-        return coluna.ObterDto();
     }
 
     private void ValidarSeAColunaExiste(Coluna coluna)

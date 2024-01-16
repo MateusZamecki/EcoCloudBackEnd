@@ -1,4 +1,5 @@
 ﻿using Aplicacao.DTOs.Colunas;
+using Comum.Helpers;
 using Dominio.Colunas;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +14,11 @@ public static class MapeiaParaColunaDto
         {
             Id = coluna.Id,
             Nome = coluna.Nome.Valor,
-            Transacoes = coluna.Transacoes.ObterDto(),
+            Transacoes = coluna.Transacoes.ToList().ObterDto(),
             QuantidadeTotalDasTransacoes = coluna.TotalDasTransacoes.Valor,
             Configuracao = coluna.Configuracao is null ? null : coluna.Configuracao.ObterDto(),
+            Tipo = (int)coluna.Tipo,
+            TipoDescricao = coluna.Tipo.ObterDescricaoDaEnumeracao(),
         };
     }
 

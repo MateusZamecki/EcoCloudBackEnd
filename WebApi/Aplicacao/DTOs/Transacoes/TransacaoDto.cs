@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Aplicacao.DTOs;
+namespace Aplicacao.DTOs.Transacoes;
 
 public class TransacaoDto
 {
@@ -11,5 +11,7 @@ public class TransacaoDto
     public DateTime DataDeCriacao { get; set; }
     public bool Ativo { get; set; }
     public bool Desativado { get; set; }
-    public int Classificacao { get; set; }
+    public ClassificacaoDto Classificacao { get; set; }
+    public string Descricao { get; set; }
+    public bool EhRecorrente { get; set; }
 }

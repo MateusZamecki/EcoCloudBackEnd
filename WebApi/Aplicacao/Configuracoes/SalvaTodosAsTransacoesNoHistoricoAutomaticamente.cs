@@ -29,18 +29,23 @@ public class SalvaTodosAsTransacoesNoHistoricoAutomaticamente : ISalvaTodasAsTra
                 var configuracao = coluna.Configuracao;
 
                 coluna.SalvarTransacoesNoHistorico();
-                var transacoes = coluna.Transacoes;
-                transacoes.ForEach(transacao =>
-                {
-                    if (transacao.Classificacao == Classificacao.FIXO)
+                coluna.Transacoes
+                    .ForEach(transacao =>
                     {
-                        coluna.AdicionarTransacao(new Transacao(transacao.Nome, transacao.Quantia, transacao.Classificacao));
-                    }
-                });
-
-                await _colunaRepositorio.Atualizar(coluna);
+                        if (transacao.EhRecorrente)
+                        {
+                            var transacaoRecorrente = new Transacao(
+                                transacao.Nome, 
+                                transacao.Quantia, 
+                                transacao.Classificacao,
+                                transacao.Descricao,
+                                transacao.EhRecorrente);
+                            coluna.AdicionarTransacao(transacaoRecorrente);
+                        }
+                    });
 
                 configuracao.AtualizarData();
+                await _colunaRepositorio.Atualizar(coluna);
                 await _configuracaoRepositorio.Atualizar(configuracao);
             }
         }

@@ -7,31 +7,35 @@ using Dominio.Colunas;
 using Dominio.ObjetosDeValor;
 using Dominio.Quadros;
 using Infra.Repositorios.Interfaces;
+using System;
 using System.Threading.Tasks;
 
 namespace Aplicacao.Colunas;
 
 public class AdicionaColuna : IAdicionaColuna
 {
-    private IColunaRepositorio _colunaRepositorio;
+    private IQuadroRepositorio _quadroRepositorio;
 
-    public AdicionaColuna(IColunaRepositorio colunaRepositorio)
+    public AdicionaColuna(IQuadroRepositorio quadroRepositorio)
     {
-        _colunaRepositorio = colunaRepositorio;
+        _quadroRepositorio = quadroRepositorio;
     }
 
-    public async Task<ColunaDto> Adicionar(ColunaDto colunaDto)
+    public async Task Adicionar(ColunaDto colunaDto)
     {
+        var quadro = await _quadroRepositorio.ObterPorId(colunaDto.IdDoQuadro);
+        ValidarSeOQuadroExiste(quadro);
+
         var nome = Nome.Criar(colunaDto.Nome);
         var tipo = (Tipo)colunaDto.Tipo;
         var coluna = new Coluna(nome, tipo);
 
         AdicionarColuna(coluna, colunaDto.Configuracao);
 
-        await _colunaRepositorio.Adicionar(coluna);
-
-        return coluna.ObterDto();
+        quadro.AdicionarColuna(coluna);
+        await _quadroRepositorio.Atualizar(quadro);
     }
+
 
     private void AdicionarColuna(Coluna coluna, ConfiguracaoDto configuracaoDto)
     {
@@ -42,7 +46,7 @@ public class AdicionaColuna : IAdicionaColuna
         }
     }
 
-    private void ValidarSeAColunaExiste(Quadro quadro)
+    private void ValidarSeOQuadroExiste(Quadro quadro)
     {
         new ExcecaoDeAplicacao()
             .QuandoEhNulo(quadro, MensagensDeExcecao.QuadroNaoEncontrado)

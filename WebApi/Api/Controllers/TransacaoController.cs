@@ -1,4 +1,5 @@
 ﻿using Aplicacao.DTOs;
+using Aplicacao.DTOs.Transacoes;
 using Aplicacao.Transacoes.Interfaces;
 using Carter;
 
@@ -12,30 +13,23 @@ public class TransacaoController : ICarterModule
 
         rotaPadrao.MapPost("adicionar", Adicionar);
 
-        rotaPadrao.MapPut("alterarNome", AlterarNome);
-        rotaPadrao.MapPut("atualizarQuantia", AtualizarQuantia);
+        rotaPadrao.MapPut("alterar", Alterar);
         rotaPadrao.MapPut("desativar/{id}", Desativar);
         rotaPadrao.MapPut("movimentar", Movimentar);
 
         rotaPadrao.MapDelete("excluir", Excluir);
     }
 
-    public async Task<IResult> Adicionar(TransacaoDto transacaoDto, IAdicionaTransacao adicionaTransacao)
+    public async Task<IResult> Adicionar(AdicionaTransacaoDto transacaoDto, IAdicionaTransacao adicionaTransacao)
     {
-        var transacao = await adicionaTransacao.Adicionar(transacaoDto);
-        return Results.Ok(transacao);
+        await adicionaTransacao.Adicionar(transacaoDto);
+        return Results.Ok();
     }
 
-    public async Task<IResult> AtualizarQuantia(TransacaoDto transacaoDto, IAtualizaQuantia atualizaQuantia)
+    public async Task<IResult> Alterar(AlteraTransacaoDto transacaoDto, IAlteraTransacao alteraTransacao)
     {
-        var transacao = await atualizaQuantia.Atualizar(transacaoDto);
-        return Results.Ok(transacao);
-    }
-
-    public async Task<IResult> AlterarNome(TransacaoDto transacaoDto, IAlteraNomeDaTransacao alteraNomeDaTransacao)
-    {
-        var transacao = await alteraNomeDaTransacao.Alterar(transacaoDto.Nome, transacaoDto.Id);
-        return Results.Ok(transacao);
+        await alteraTransacao.Alterar(transacaoDto);
+        return Results.Ok();
     }
 
     public async Task<IResult> Excluir(int idDaTranscao, int idDaColuna, IExcluiTransacao excluiTransacao)
@@ -46,8 +40,8 @@ public class TransacaoController : ICarterModule
 
     private async Task<IResult> Desativar(int id, int idDaColuna, IDesativaTransacao desativaTransacao)
     {
-        var transacaos = await desativaTransacao.Desativar(id, idDaColuna);
-        return Results.Ok(transacaos);
+        await desativaTransacao.Desativar(id, idDaColuna);
+        return Results.Ok();
     }
 
     private async Task<IResult> Movimentar(MovimentacaoDeTransacaoDto movimentacaoDeTransacaoDto, IMovimentaTransacao movimentaTransacao)

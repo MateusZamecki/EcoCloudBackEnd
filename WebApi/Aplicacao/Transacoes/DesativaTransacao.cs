@@ -1,15 +1,8 @@
-﻿using Aplicacao.DTOs;
-using Aplicacao.DTOs.Colunas;
-using Aplicacao.Transacoes.Interfaces;
-using Aplicacao.Mapeadores;
+﻿using Aplicacao.Transacoes.Interfaces;
 using Comum.Excecoes;
 using Dominio.Colunas;
 using Dominio.Transacoes;
-using Infra.Repositorios;
 using Infra.Repositorios.Interfaces;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -27,7 +20,7 @@ public class DesativaTransacao : IDesativaTransacao
         _transacaoRepositorio = transacaoRepositorio;
     }
 
-    public async Task<List<TransacaoDto>> Desativar(int id, int idDaColuna)
+    public async Task Desativar(int id, int idDaColuna)
     {
         var coluna = await _colunaRepositorio.ObterPorId(idDaColuna);
         ValidarSeAColunaExiste(coluna);
@@ -37,8 +30,6 @@ public class DesativaTransacao : IDesativaTransacao
         transacao.Desativar();
 
         await _transacaoRepositorio.Atualizar(transacao);
-
-        return coluna.Transacoes.ObterDto();
     }
 
     private void ValidarSeATransacaoExiste(Transacao transacao)

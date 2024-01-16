@@ -17,7 +17,7 @@ namespace Infra.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.11")
+                .HasAnnotation("ProductVersion", "7.0.13")
                 .HasAnnotation("Proxies:ChangeTracking", false)
                 .HasAnnotation("Proxies:CheckEquality", false)
                 .HasAnnotation("Proxies:LazyLoading", true)
@@ -118,6 +118,23 @@ namespace Infra.Migrations
                     b.ToTable("LogDosServicos", (string)null);
                 });
 
+            modelBuilder.Entity("Dominio.Transacoes.Classificacao", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Cor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Classificacoes", (string)null);
+                });
+
             modelBuilder.Entity("Dominio.Transacoes.Transacao", b =>
                 {
                     b.Property<int>("Id")
@@ -127,20 +144,26 @@ namespace Infra.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("Ativo")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
+                        .HasColumnType("bit");
 
-                    b.Property<int>("Classificacao")
+                    b.Property<int?>("ClassificacaoId")
                         .HasColumnType("int");
 
                     b.Property<int>("ColunaId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DataDeCriacao")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Descricao")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("EhRecorrente")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClassificacaoId");
 
                     b.HasIndex("ColunaId");
 
@@ -226,37 +249,60 @@ namespace Infra.Migrations
                                 .HasForeignKey("QuadroId");
                         });
 
-                    b.OwnsOne("Dominio.ObjetosDeValor.Quantia", "QuantiaDesignada", b1 =>
+                    b.Navigation("Nome");
+                });
+
+            modelBuilder.Entity("Dominio.Transacoes.Classificacao", b =>
+                {
+                    b.OwnsOne("Dominio.ObjetosDeValor.Nome", "Nome", b1 =>
                         {
-                            b1.Property<int>("QuadroId")
+                            b1.Property<int>("ClassificacaoId")
                                 .HasColumnType("int");
 
-                            b1.Property<decimal>("Valor")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("numeric(28,2)")
-                                .HasDefaultValue(0m)
-                                .HasColumnName("QuantiaDesignada");
+                            b1.Property<string>("Valor")
+                                .IsRequired()
+                                .HasColumnType("varchar(50)")
+                                .HasColumnName("Nome");
 
-                            b1.HasKey("QuadroId");
+                            b1.HasKey("ClassificacaoId");
 
-                            b1.ToTable("Quadros");
+                            b1.ToTable("Classificacoes");
 
                             b1.WithOwner()
-                                .HasForeignKey("QuadroId");
+                                .HasForeignKey("ClassificacaoId");
                         });
 
                     b.Navigation("Nome");
-
-                    b.Navigation("QuantiaDesignada");
                 });
 
             modelBuilder.Entity("Dominio.Transacoes.Transacao", b =>
                 {
+                    b.HasOne("Dominio.Transacoes.Classificacao", "Classificacao")
+                        .WithMany()
+                        .HasForeignKey("ClassificacaoId");
+
                     b.HasOne("Dominio.Colunas.Coluna", null)
                         .WithMany("Transacoes")
                         .HasForeignKey("ColunaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.OwnsOne("Dominio.ObjetosDeValor.Quantia", "Quantia", b1 =>
+                        {
+                            b1.Property<int>("TransacaoId")
+                                .HasColumnType("int");
+
+                            b1.Property<decimal>("Valor")
+                                .HasColumnType("numeric(28,2)")
+                                .HasColumnName("Quantia");
+
+                            b1.HasKey("TransacaoId");
+
+                            b1.ToTable("Transacoes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("TransacaoId");
+                        });
 
                     b.OwnsOne("Dominio.ObjetosDeValor.Nome", "Nome", b1 =>
                         {
@@ -276,22 +322,7 @@ namespace Infra.Migrations
                                 .HasForeignKey("TransacaoId");
                         });
 
-                    b.OwnsOne("Dominio.ObjetosDeValor.Quantia", "Quantia", b1 =>
-                        {
-                            b1.Property<int>("TransacaoId")
-                                .HasColumnType("int");
-
-                            b1.Property<decimal>("Valor")
-                                .HasColumnType("numeric(28,2)")
-                                .HasColumnName("Quantia");
-
-                            b1.HasKey("TransacaoId");
-
-                            b1.ToTable("Transacoes");
-
-                            b1.WithOwner()
-                                .HasForeignKey("TransacaoId");
-                        });
+                    b.Navigation("Classificacao");
 
                     b.Navigation("Nome");
 

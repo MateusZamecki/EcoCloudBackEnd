@@ -1,4 +1,4 @@
-﻿using Aplicacao.DTOs;
+﻿using Aplicacao.DTOs.Quadros;
 using Aplicacao.Mapeadores;
 using Aplicacao.Quadros.Interfaces;
 using Comum.Excecoes;
@@ -19,7 +19,7 @@ public class AlteraNomeDoQuadro : IAlteraNomeDoQuadro
         _quadroRepositorio = quadroRepositorio;
     }
 
-    public async Task<QuadroDto> Alterar(string nome, int idDoQuadro)
+    public async Task Alterar(string nome, int idDoQuadro)
     {
         var novoNome = Nome.Criar(nome);
         var quadro = await _quadroRepositorio.ObterPorId(idDoQuadro);
@@ -29,8 +29,6 @@ public class AlteraNomeDoQuadro : IAlteraNomeDoQuadro
         quadro.AlterarNome(novoNome);
 
         await _quadroRepositorio.Atualizar(quadro);
-
-        return quadro.ObterDto();
     }
 
     private void ValidarSeOQuadroExiste(Quadro quadro)

@@ -12,7 +12,7 @@ public class ColunaController : ICarterModule
         
         rotaPadrao.MapPost("adicionar", Adicionar);
 
-        rotaPadrao.MapPut("alterarNome", AlterarNome);
+        rotaPadrao.MapPut("alterar", Alterar);
         rotaPadrao.MapPut("salvarTransacoes/{idDaColuna}", SalvarTransacoes);
 
         rotaPadrao.MapGet("consultarHistorico/{idDaColuna}", ConsultarHistorico);
@@ -23,14 +23,14 @@ public class ColunaController : ICarterModule
 
     public async Task<IResult> Adicionar(ColunaDto colunaDto, IAdicionaColuna adicionaColuna)
     {
-        var coluna = await adicionaColuna.Adicionar(colunaDto);
-        return Results.Ok(coluna);
+        await adicionaColuna.Adicionar(colunaDto);
+        return Results.Ok();
     }
 
-    public async Task<IResult> AlterarNome(ColunaDto colunaDto, IAlteraNomeDaColuna alteraNomeDaColuna)
+    public async Task<IResult> Alterar(AlteraColunaDto alteraColunaDto, IAlteraColuna alteraColuna)
     {
-        var coluna = await alteraNomeDaColuna.Alterar(colunaDto);
-        return Results.Ok(coluna);
+        await alteraColuna.Alterar(alteraColunaDto);
+        return Results.Ok();
     }
 
     public async Task<IResult> Excluir(int idDaColuna, IExcluiColuna excluirColuna)
@@ -42,8 +42,8 @@ public class ColunaController : ICarterModule
     public async Task<IResult> SalvarTransacoes(int idDaColuna, 
         ISalvaTodasAsTransacoesNoHistorico salvaTodasAsTransacoesNoHistorico)
     {
-        var coluna = await salvaTodasAsTransacoesNoHistorico.Salvar(idDaColuna);
-        return Results.Ok(coluna);
+        await salvaTodasAsTransacoesNoHistorico.Salvar(idDaColuna);
+        return Results.Ok();
     }
 
     public async Task<IResult> ConsultarHistorico(int idDaColuna, IConsultaHistorico consultaHistorico)

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Aplicacao.Colunas.Interfaces;
 
-public interface IAlteraNomeDaColuna
+public interface IAlteraColuna
 {
-    Task<ColunaDto> Alterar(ColunaDto colunaDto);
+    Task Alterar(AlteraColunaDto alteraColunaDto);
 }

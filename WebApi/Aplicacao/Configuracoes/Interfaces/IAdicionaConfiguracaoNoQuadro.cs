@@ -1,4 +1,4 @@
-﻿using Aplicacao.DTOs;
+﻿using Aplicacao.DTOs.Quadros;
 using System.Threading.Tasks;
 
 namespace Aplicacao.Configuracoes.Interfaces;

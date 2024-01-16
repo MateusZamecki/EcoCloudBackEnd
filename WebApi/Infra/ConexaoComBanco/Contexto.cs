@@ -11,6 +11,7 @@ namespace Infra.ConexaoComBanco;
 public class Contexto : DbContext
 {
     public DbSet<Transacao> Transacoes { get; set; }
+    public DbSet<Classificacao> Classificacoes { get; set; }
     public DbSet<Coluna> Colunas { get; set; }
     public DbSet<Quadro> Quadros { get; set; }
     public DbSet<Usuario> Usuarios { get; set; }
@@ -19,12 +20,15 @@ public class Contexto : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfiguration(new TransacaoMap());
-        modelBuilder.ApplyConfiguration(new ColunaMap());
-        modelBuilder.ApplyConfiguration(new QuadroMap());
         modelBuilder.ApplyConfiguration(new UsuarioMap());
+        modelBuilder.ApplyConfiguration(new QuadroMap());
+        modelBuilder.ApplyConfiguration(new ColunaMap());
         modelBuilder.ApplyConfiguration(new ConfiguracaoMap());
         modelBuilder.ApplyConfiguration(new LogDosServicosMap());
+        modelBuilder.ApplyConfiguration(new ClassificacaoMap());
+        modelBuilder.ApplyConfiguration(new TransacaoMap());
+
+        base.OnModelCreating(modelBuilder);
     }
 
     public Contexto(DbContextOptions<Contexto> options) : base(options)

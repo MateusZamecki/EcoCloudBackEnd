@@ -5,5 +5,5 @@ namespace Aplicacao.Colunas.Interfaces;
 
 public interface IAdicionaColuna
 {
-    Task<ColunaDto> Adicionar(ColunaDto colunaDto);
+    Task Adicionar(ColunaDto colunaDto);
 }

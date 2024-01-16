@@ -68,11 +68,13 @@ public class Coluna : Entidade<Coluna>
 
     public void AlterarNome(Nome nome)
     {
+        ValidarNome(nome);
         Nome = nome;
     }
 
     public void AlterarTipo(Tipo tipo)
     {
+        ValidarTipo(tipo);
         Tipo = tipo;
     }
 
