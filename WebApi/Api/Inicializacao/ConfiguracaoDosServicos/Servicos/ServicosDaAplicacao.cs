@@ -40,6 +40,7 @@ public static class ServicosDaAplicacao
         services.AddScoped<IAlteraConfiguracao, AlteraConfiguracao>();
         services.AddScoped<IExcluiConfiguracao, ExcluiConfiguracao>();
         services.AddScoped<IAdicionaConfiguracaoNoQuadro, AdicionaConfiguracaoNoQuadro>();
+        services.AddScoped<IConsultaConfiguracao, ConsultaConfiguracao>();
 
         services.AddScoped<IAdicionaQuadro, AdicionaQuadro>();
         services.AddScoped<IAlteraNomeDoQuadro, AlteraNomeDoQuadro>();

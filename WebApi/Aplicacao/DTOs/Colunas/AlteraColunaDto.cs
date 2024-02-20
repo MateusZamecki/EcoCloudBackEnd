@@ -1,4 +1,6 @@
-﻿namespace Aplicacao.DTOs.Colunas;
+﻿using Aplicacao.DTOs.Configuracao;
+
+namespace Aplicacao.DTOs.Colunas;
 
 public class AlteraColunaDto
 {

@@ -1,5 +1,5 @@
 ﻿using Aplicacao.Configuracoes.Interfaces;
-using Aplicacao.DTOs;
+using Aplicacao.DTOs.Configuracao;
 using Carter;
 
 namespace WebApi.Controllers;
@@ -13,9 +13,17 @@ public class ConfiguracaoController : ICarterModule
         rotaPadrao.MapPost("adicionar/{idDaColuna}", Adicionar);
         rotaPadrao.MapPost("adicionarNoQuadro/{idDoQuadro}", AdicionarNoQuadro);
 
+        rotaPadrao.MapGet("consultar/{id}", Consultar);
+
         rotaPadrao.MapPut("alterarIntervalo", AlterarIntervalo);
 
         rotaPadrao.MapDelete("excluir/{id}", ExcluirConfiguracao);
+    }
+
+    private async Task<IResult> Consultar(int id, IConsultaConfiguracao consultaConfiguracao)
+    {
+        var configuracao = await consultaConfiguracao.Consultar(id);
+        return Results.Ok(configuracao);
     }
 
     public async Task<IResult> Adicionar(int intervaloDeDias, int idDaColuna, 

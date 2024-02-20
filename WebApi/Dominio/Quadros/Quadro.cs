@@ -46,7 +46,7 @@ public class Quadro : Entidade<Quadro>
         var total = Colunas
                 .Where(coluna => coluna.Tipo == tipo)
                 .Sum(coluna => coluna.TotalDasTransacoes.Valor);
-        return Quantia.Criar();
+        return Quantia.Criar(total);
     }
 
     private void ValidarColuna(Coluna coluna)

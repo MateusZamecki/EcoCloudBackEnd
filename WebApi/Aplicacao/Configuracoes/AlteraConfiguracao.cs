@@ -1,5 +1,5 @@
 ﻿using Aplicacao.Configuracoes.Interfaces;
-using Aplicacao.DTOs;
+using Aplicacao.DTOs.Configuracao;
 using Aplicacao.Mapeadores;
 using Comum.Excecoes;
 using Dominio.Colunas;

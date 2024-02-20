@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Aplicacao.DTOs.Configuracao;
 using Aplicacao.DTOs.Transacoes;
 
 namespace Aplicacao.DTOs.Colunas;

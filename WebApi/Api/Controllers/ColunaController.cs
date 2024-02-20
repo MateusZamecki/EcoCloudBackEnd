@@ -21,9 +21,9 @@ public class ColunaController : ICarterModule
         rotaPadrao.MapDelete("excluir", Excluir);
     }
 
-    public async Task<IResult> Adicionar(ColunaDto colunaDto, IAdicionaColuna adicionaColuna)
+    public async Task<IResult> Adicionar(AdicionaColunaDto adicionaColunaDto, IAdicionaColuna adicionaColuna)
     {
-        await adicionaColuna.Adicionar(colunaDto);
+        await adicionaColuna.Adicionar(adicionaColunaDto);
         return Results.Ok();
     }
 

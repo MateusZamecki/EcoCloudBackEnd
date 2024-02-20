@@ -1,13 +1,11 @@
 ﻿using Aplicacao.Colunas.Interfaces;
-using Aplicacao.DTOs;
+using Aplicacao.Configuracoes.Interfaces;
 using Aplicacao.DTOs.Colunas;
-using Aplicacao.Mapeadores;
 using Comum.Excecoes;
 using Dominio.Colunas;
 using Dominio.ObjetosDeValor;
 using Dominio.Quadros;
 using Infra.Repositorios.Interfaces;
-using System;
 using System.Threading.Tasks;
 
 namespace Aplicacao.Colunas;
@@ -15,35 +13,37 @@ namespace Aplicacao.Colunas;
 public class AdicionaColuna : IAdicionaColuna
 {
     private IQuadroRepositorio _quadroRepositorio;
+    private IConsultaConfiguracao _consultaConfiguracao;
 
-    public AdicionaColuna(IQuadroRepositorio quadroRepositorio)
+    public AdicionaColuna(IQuadroRepositorio quadroRepositorio, 
+        IConsultaConfiguracao consultaConfiguracao)
     {
         _quadroRepositorio = quadroRepositorio;
+        _consultaConfiguracao = consultaConfiguracao;
     }
 
-    public async Task Adicionar(ColunaDto colunaDto)
+    public async Task Adicionar(AdicionaColunaDto adicionaColunaDto)
     {
-        var quadro = await _quadroRepositorio.ObterPorId(colunaDto.IdDoQuadro);
+        var quadro = await _quadroRepositorio.ObterPorId(adicionaColunaDto.IdDoQuadro);
         ValidarSeOQuadroExiste(quadro);
 
-        var nome = Nome.Criar(colunaDto.Nome);
-        var tipo = (Tipo)colunaDto.Tipo;
+        var nome = Nome.Criar(adicionaColunaDto.Nome);
+        var tipo = (Tipo)adicionaColunaDto.Tipo;
         var coluna = new Coluna(nome, tipo);
 
-        AdicionarColuna(coluna, colunaDto.Configuracao);
+        await AdicionarConfiguracaoNaColuna(coluna, adicionaColunaDto.IdDaConfiguracao);
 
         quadro.AdicionarColuna(coluna);
         await _quadroRepositorio.Atualizar(quadro);
     }
 
-
-    private void AdicionarColuna(Coluna coluna, ConfiguracaoDto configuracaoDto)
+    private async Task AdicionarConfiguracaoNaColuna(Coluna coluna, int idDaConfiguracao)
     {
-        if (configuracaoDto != null)
-        {
-            var configuracao = new Configuracao(configuracaoDto.IntervaloDeDias);
-            coluna.AdicionarConfiguracao(configuracao);
-        }
+        if (idDaConfiguracao == 0)
+            return;
+
+        var configuracao = await _consultaConfiguracao.ConsultarEntidade(idDaConfiguracao);
+        coluna.AdicionarConfiguracao(configuracao);
     }
 
     private void ValidarSeOQuadroExiste(Quadro quadro)

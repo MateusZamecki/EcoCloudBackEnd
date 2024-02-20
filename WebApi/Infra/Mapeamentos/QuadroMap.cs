@@ -15,10 +15,5 @@ public class QuadroMap : IEntityTypeConfiguration<Quadro>
             .HasColumnType("varchar(50)")
             .HasColumnName("Nome")
             .IsRequired();
-        builder.HasMany(quadro => quadro.Colunas)
-            .WithOne()
-            .HasForeignKey("QuadroId")
-            .OnDelete(DeleteBehavior.Cascade)
-            .IsRequired();
     }
 }

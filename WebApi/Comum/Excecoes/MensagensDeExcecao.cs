@@ -31,4 +31,5 @@ public static class MensagensDeExcecao
     public const string AClassificacaoInformadaEhInvalida = "A classificação informada é inválida.";
     public const string ClassificacaoNaoEncontrada = "Classificação não encontrada.";
     public const string ADataInformadaEhInvalida = "A data informada é inválida.";
+    public const string ConfiguracaoNaoFoiEncontrada = "Configuração não encontrada.";
 }

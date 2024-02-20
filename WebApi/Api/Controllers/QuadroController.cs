@@ -10,7 +10,7 @@ public class QuadroController : ICarterModule
     {
         var rotaPadrao = app.MapGroup("quadros");
 
-        rotaPadrao.MapPost("adicionar/{idDoUsuario}", Adicionar);
+        rotaPadrao.MapPost("adicionar", Adicionar);
 
         rotaPadrao.MapPut("alterarNome/{id}",AlterarNome);
 

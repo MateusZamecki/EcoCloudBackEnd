@@ -1,4 +1,4 @@
-﻿using Aplicacao.DTOs;
+﻿using Aplicacao.DTOs.Configuracao;
 using Dominio.Colunas;
 using System.Collections.Generic;
 using System.Linq;

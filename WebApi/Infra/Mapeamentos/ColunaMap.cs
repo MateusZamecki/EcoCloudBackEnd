@@ -20,11 +20,6 @@ public class ColunaMap : IEntityTypeConfiguration<Coluna>
             .HasForeignKey("ColunaId")
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
-        builder.HasOne(coluna => coluna.Configuracao)
-            .WithOne()
-            .HasForeignKey<Configuracao>("ColunaId")
-            .OnDelete(DeleteBehavior.Cascade)
-            .IsRequired(false);
         builder.Property(coluna => coluna.Tipo)
             .HasConversion<int>()
             .IsRequired();

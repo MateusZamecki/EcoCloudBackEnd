@@ -23,10 +23,5 @@ public class UsuarioMap : IEntityTypeConfiguration<Usuario>
         builder.Property(usuario => usuario.DataDeCriacao)
             .HasColumnType("datetime")
             .IsRequired();
-        builder.HasMany(usuario => usuario.Quadros)
-            .WithOne()
-            .HasForeignKey("UsuarioId")
-            .OnDelete(DeleteBehavior.Cascade)
-            .IsRequired();
     }
 }
